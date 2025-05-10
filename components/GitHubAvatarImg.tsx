@@ -1,11 +1,11 @@
-// Copyright 2023-2025 the Deno authors. All rights reserved. MIT license.
+// components/GitHubAvatarImg.tsx
 export interface GitHubAvatarImgProps {
   /** The GitHub user's username */
-  login: string;
+  login: string
   /** The height and width (1:1 ratio) of the image, in pixels */
-  size: number;
+  size: number
   /** Additional classes */
-  class?: string;
+  class?: string
 }
 
 export default function GitHubAvatarImg(props: GitHubAvatarImgProps) {
@@ -19,10 +19,10 @@ export default function GitHubAvatarImg(props: GitHubAvatarImgProps) {
       }`}
       alt={`GitHub avatar of ${props.login}`}
       class={`rounded-full inline-block aspect-square size-[${props.size}px] ${
-        props.class ?? ""
+        props.class ?? ''
       }`}
-      crossOrigin="anonymous"
-      loading="lazy"
+      crossOrigin='anonymous'
+      loading='lazy'
     />
-  );
+  )
 }

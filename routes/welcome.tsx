@@ -1,57 +1,76 @@
-// Copyright 2023-2025 the Deno authors. All rights reserved. MIT license.
-import { defineRoute } from "$fresh/src/server/defines.ts";
-import Head from "@/components/Head.tsx";
-import { isGitHubSetup } from "@/utils/github.ts";
+// routes/welcome.tsx
+import { Head } from '$fresh/runtime.ts'
+import { asset } from '$fresh/runtime.ts'
+import ChatIsland from '../islands/ChatIsland.tsx'
 
-function SetupInstruction() {
+// Constants from runtime config
+const SIGNALHUB_SERVER = Deno.env.get('SIGNALHUB_SERVER') ||
+  'https://signalhub-jmx.herokuapp.com'
+const SIGNALHUB_ROOM = Deno.env.get('SIGNALHUB_ROOM') || 'thingylabs-chat'
+const APP_NAME = Deno.env.get('APP_NAME') || 'perguth-saaskit'
+
+export default function Welcome() {
   return (
-    <div class="bg-green-50 dark:bg-gray-900 dark:border dark:border-green-800 rounded-xl max-w-screen-sm mx-auto p-8 space-y-2">
-      <h1 class="text-2xl font-medium">Welcome to SaaSKit!</h1>
+    <div class='flex flex-col min-h-screen bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950'>
+      <Head>
+        <title>thingylabs | Real-time Chat</title>
+        <meta
+          name='description'
+          content='Connect with others in real-time using our integrated chat system'
+        />
+        <link
+          rel='preload'
+          href={asset('/fonts/inter.woff2')}
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+      </Head>
 
-      <p class="text-gray-600 dark:text-gray-400">
-        To enable user login, you need to configure the GitHub OAuth application
-        and set environment variables.
-      </p>
+      <header class='bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10'>
+        <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
+          <div class='flex items-center space-x-3'>
+            <img
+              src={asset('/logo.svg')}
+              class='w-8 h-8 dark:invert'
+              alt='thingylabs Logo'
+            />
+            <h1 class='text-xl font-semibold text-gray-900 dark:text-white'>
+              thingylabs{' '}
+              <span class='text-indigo-600 dark:text-indigo-400'>chat</span>
+            </h1>
+          </div>
+        </div>
+      </header>
 
-      <p>
-        <a
-          href="https://github.com/denoland/saaskit#get-started-locally"
-          class="inline-flex gap-2 text-green-600 dark:text-green-400 hover:underline cursor-pointer"
-        >
-          Get started locally guide &#8250;
-        </a>
-      </p>
-      <p>
-        <a
-          href="https://github.com/denoland/saaskit#deploy-to-production"
-          class="inline-flex gap-2 text-green-600 dark:text-green-400 hover:underline cursor-pointer"
-        >
-          Deploy to production guide &#8250;
-        </a>
-      </p>
-
-      <p class="text-gray-600 dark:text-gray-400">
-        After setting up{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
-          GITHUB_CLIENT_ID
-        </span>{" "}
-        and{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
-          GITHUB_CLIENT_SECRET
-        </span>
-        , this message will disappear.
-      </p>
-    </div>
-  );
-}
-
-export default defineRoute((_req, ctx) => {
-  return (
-    <>
-      <Head title="Welcome" href={ctx.url.href} />
-      <main class="flex-1 flex justify-center items-center">
-        {!isGitHubSetup() && <SetupInstruction />}
+      <main class='flex-1 p-4 md:p-8 mx-auto max-w-5xl w-full'>
+        <ChatIsland
+          signalhubServer={SIGNALHUB_SERVER}
+          signalhubRoom={SIGNALHUB_ROOM}
+          appName={APP_NAME}
+        />
       </main>
-    </>
-  );
-});
+
+      <footer class='bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700'>
+        <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm text-gray-500 dark:text-gray-400'>
+          <p>
+            Built with ♥ by{' '}
+            <a
+              href='https://thingylabs.io'
+              class='text-indigo-600 dark:text-indigo-400 hover:underline'
+            >
+              thingylabs
+            </a>{' '}
+            •
+            <a
+              href='https://perguth.de'
+              class='text-indigo-600 dark:text-indigo-400 hover:underline ml-1'
+            >
+              perguth.de
+            </a>
+          </p>
+        </div>
+      </footer>
+    </div>
+  )
+}

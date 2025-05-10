@@ -1,15 +1,15 @@
-// Copyright 2023-2025 the Deno authors. All rights reserved. MIT license.
-import { difference, type Unit } from "$std/datetime/difference.ts";
+// utils/display.ts
+import { difference, type Unit } from '$std/datetime/difference.ts'
 
 const units = [
-  "years",
-  "months",
-  "weeks",
-  "days",
-  "hours",
-  "minutes",
-  "seconds",
-] as Unit[];
+  'years',
+  'months',
+  'weeks',
+  'days',
+  'hours',
+  'minutes',
+  'seconds',
+] as Unit[]
 
 /**
  * Returns how long ago a given date is from now.
@@ -24,14 +24,14 @@ const units = [
  * ```
  */
 export function timeAgo(date: Date): string {
-  const now = new Date();
-  if (date > now) throw new Error("Timestamp must be in the past");
-  const duration = difference(date, now, { units });
-  if (duration.seconds === 0) return "just now";
-  const largestUnit = units.find((unit) => duration[unit]! > 0) || "seconds";
+  const now = new Date()
+  if (date > now) throw new Error('Timestamp must be in the past')
+  const duration = difference(date, now, { units })
+  if (duration.seconds === 0) return 'just now'
+  const largestUnit = units.find((unit) => duration[unit]! > 0) || 'seconds'
   // @ts-ignore - TS doesn't know about this API yet
-  return new Intl.DurationFormat("en", { style: "long" })
-    .format({ [largestUnit]: duration[largestUnit] }) + " ago";
+  return new Intl.DurationFormat('en', { style: 'long' })
+    .format({ [largestUnit]: duration[largestUnit] }) + ' ago'
 }
 
 /**
@@ -52,15 +52,15 @@ export function formatCurrency(
   currency: string,
 ): string {
   return new Intl.NumberFormat(
-    "en-US",
+    'en-US',
     {
-      style: "currency",
+      style: 'currency',
       currency,
-      currencyDisplay: "symbol",
+      currencyDisplay: 'symbol',
       maximumFractionDigits: 0,
     },
   ).format(amount)
     // Issue: https://stackoverflow.com/questions/44533919/space-after-symbol-with-js-intl
-    .replace(/^(\D+)/, "$1")
-    .replace(/\s+/, "");
+    .replace(/^(\D+)/, '$1')
+    .replace(/\s+/, '')
 }

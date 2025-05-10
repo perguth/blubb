@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   web:
@@ -13,4 +13,4 @@ services:
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
       - STRIPE_PREMIUM_PLAN_PRICE_ID=${STRIPE_PREMIUM_PLAN_PRICE_ID}
     ports:
-      - "8000:8000"
+      - '8000:8000'
