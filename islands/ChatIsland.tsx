@@ -66,7 +66,7 @@ export default function ChatIsland(
 
     const initSignalHub = async () => {
       try {
-        const signalhub = await import('https://esm.sh/signalhub@4.0.0')
+        const signalhub = await import('https://esm.sh/signalhub@4.9.0')
         const hub = signalhub.default(appName, [signalhubServer])
         hubClient.value = hub
 
